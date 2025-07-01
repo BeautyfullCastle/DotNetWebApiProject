@@ -12,14 +12,14 @@ namespace DotNetWebApiProject.Cache
             _database = connectionMultiplexer.GetDatabase();
         }
 
-        public async Task<T> GetAsync<T>(string key)
+        public async Task<T?> GetAsync<T>(string key)
         {
             var value = await _database.StringGetAsync(key);
             if (value.IsNullOrEmpty)
             {
                 return default;
             }
-            return JsonSerializer.Deserialize<T>(value);
+            return JsonSerializer.Deserialize<T>(value.ToString());
         }
 
         public async Task SetAsync<T>(string key, T value, TimeSpan? expiry = null)

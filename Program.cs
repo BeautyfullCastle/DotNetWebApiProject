@@ -14,7 +14,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<DotNetWebApiProject.Repositories.IUserRepository, DotNetWebApiProject.Repositories.UserRepository>();
 builder.Services.AddScoped<DotNetWebApiProject.Services.IUserService, DotNetWebApiProject.Services.UserService>();
 
-builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(builder.Configuration.GetConnectionString("Redis")));
+builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(builder.Configuration.GetConnectionString("Redis")!));
 builder.Services.AddSingleton<ICacheService, RedisCacheService>();
 
 builder.Services.AddControllers(); // Add this line to register controllers

@@ -15,7 +15,7 @@ namespace DotNetWebApiProject.Services
             _cacheService = cacheService;
         }
 
-        public async Task<User> GetUserByIdAsync(int id)
+        public async Task<User?> GetUserByIdAsync(int id)
         {
             var cacheKey = $"User:{id}";
             var user = await _cacheService.GetAsync<User>(cacheKey);
@@ -46,7 +46,7 @@ namespace DotNetWebApiProject.Services
             {
                 await _cacheService.SetAsync(cacheKey, users, TimeSpan.FromMinutes(5)); // Cache for 5 minutes
             }
-            return users;
+            return users!;
         }
 
         public async Task<User> CreateUserAsync(User user)
@@ -62,8 +62,7 @@ namespace DotNetWebApiProject.Services
             var existingUser = await _userRepository.GetUserByIdAsync(id);
             if (existingUser == null)
             {
-                // Or throw an exception
-                return;
+                throw new ArgumentException($"User with ID {id} not found.");
             }
 
             existingUser.Username = user.Username;
